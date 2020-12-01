@@ -43,8 +43,8 @@ It will generate a new externalip-webhook docker image and a new helm char revis
 
 Deploying the chart
 ```console
-helm -n externalip-webhook template rancher-externalip-webhook build/chart/latest/rancher-externalip-webhook-<VERSION>.tgz --output-dir test --debug --set image.repository=rawmind/externalip-webhook --set image.tag=dev --set metrics.enabled=true --set metrics.prometheusExport=true
-
+helm -n externalip-webhook template rancher-externalip-webhook build/chart/latest/rancher-externalip-webhook-<VERSION>.tgz --output-dir . --set metrics.enabled=true --set metrics.prometheusExport=true
+kubectl apply -R -f ./rancher-externalip-webhook
 ```
 
 ## Configuration
