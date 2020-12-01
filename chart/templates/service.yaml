@@ -4,6 +4,7 @@ metadata:
   labels: {{ include "externalip-webhook.labels" . | indent 4 }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
   name: {{ template "externalip-webhook.fullname" . }}
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
   - name: webhook-server
@@ -21,6 +22,7 @@ metadata:
   labels: {{ include "externalip-webhook.labels" . | indent 4 }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
   name: {{ template "externalip-webhook.fullname" . }}-metrics-service
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
   - name: webhook-metrics

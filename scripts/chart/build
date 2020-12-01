@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -e -x
+
+echo "==> Building helm chart..."
+
+cd $(dirname $0)/..
+. ./version
+
+cd ..
+mkdir -p build/chart
+rm -rf build/chart/rancher-externalip-webhook
+cp -rf ${1} build/chart/rancher-externalip-webhook
+
+APP_VERSION=${VERSION}
+if echo ${APP_VERSION} | grep -q dirty; then
+    APP_VERSION=dev
+fi
+
+sed -i -e "s/%VERSION%/${CHART_VERSION}/g" build/chart/rancher-externalip-webhook/Chart.yaml
+sed -i -e "s/%APP_VERSION%/${APP_VERSION}/g" build/chart/rancher-externalip-webhook/Chart.yaml

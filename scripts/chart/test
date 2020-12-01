@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+echo "==> Testing helm chart..."
+
+source $(dirname $0)/helm
+
+# Check for unittest plugin
+${HELM_BIN} unittest --help >/dev/null 2>&1
+if [[ $? > 0 ]]; then
+	echo "helm plugin unittest not found, installing..."
+    CATTLE_HELM_UNITTEST_VERSION="v0.1.6-rancher1" ${HELM_BIN} plugin install https://github.com/rancher/helm-unittest
+    if [[ $? > 0 ]]; then
+    	echo "Failed to install helm plugin unittest"
+    	exit 1
+    fi
+fi
+
+${HELM_BIN} unittest ../../build/chart/rancher-externalip-webhook

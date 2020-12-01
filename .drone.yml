@@ -16,7 +16,7 @@ steps:
   - name: stage-binaries
     image: rancher/dapper:v0.5.1
     commands:
-      - cp -r ./bin/* ./
+      - cp -r ./build/bin/* ./
     when:
       instance:
       - drone-publish.rancher.io
@@ -32,7 +32,7 @@ steps:
         from_secret: docker_username
       password:
         from_secret: docker_password
-      dockerfile: package/Dockerfile
+      dockerfile: Dockerfile
       build_args:
         - ARCH=amd64
       repo: rancher/externalip-webhook
@@ -68,7 +68,7 @@ steps:
   - name: stage-binaries
     image: rancher/dapper:v0.5.1
     commands:
-      - cp -r ./bin/* ./
+      - cp -r ./build/bin/* ./
     when:
       instance:
       - drone-publish.rancher.io
@@ -84,7 +84,7 @@ steps:
         from_secret: docker_username
       password:
         from_secret: docker_password
-      dockerfile: package/Dockerfile
+      dockerfile: Dockerfile
       build_args:
         - ARCH=arm64
       repo: rancher/externalip-webhook
@@ -101,119 +101,6 @@ volumes:
   - name: docker
     host:
       path: /var/run/docker.sock
----
-kind: pipeline
-name: windows-1809
-
-platform:
-  os: windows
-  arch: amd64
-  version: 1809
-
-steps:
-  - name: publish-externalip-webhook-windows-1809
-    image: plugins/docker
-    settings:
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-      dockerfile: package/Dockerfile.windows
-      build_args:
-        - SERVERCORE_VERSION=1809
-      repo: rancher/externalip-webhook
-      tag: "${DRONE_TAG}-windows-1809"
-    volumes:
-      - name: docker_pipe
-        path: \\\\.\\pipe\\docker_engine
-    when:
-      instance:
-      - drone-publish.rancher.io
-      refs:
-      - refs/head/master
-      - refs/tags/*
-      event:
-      - tag
-volumes:
-  - name: docker_pipe
-    host:
-      path: \\\\.\\pipe\\docker_engine
----
-kind: pipeline
-name: windows-1903
-
-platform:
-  os: windows
-  arch: amd64
-  version: 1903
-
-steps:
-  - name: publish-externalip-webhook-windows-1903
-    image: plugins/docker
-    settings:
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-      dockerfile: package/Dockerfile.windows
-      build_args:
-        - SERVERCORE_VERSION=1903
-      repo: rancher/externalip-webhook
-      tag: "${DRONE_TAG}-windows-1903"
-    volumes:
-      - name: docker_pipe
-        path: \\\\.\\pipe\\docker_engine
-    when:
-      instance:
-      - drone-publish.rancher.io
-      refs:
-      - refs/head/master
-      - refs/tags/*
-      event:
-      - tag
-volumes:
-  - name: docker_pipe
-    host:
-      path: \\\\.\\pipe\\docker_engine
-
----
-kind: pipeline
-name: windows-1909
-
-platform:
-  os: windows
-  arch: amd64
-  version: 1909
-
-steps:
-  - name: publish-externalip-webhook-windows-1909
-    image: plugins/docker
-    settings:
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-      dockerfile: package/Dockerfile.windows
-      build_args:
-        - SERVERCORE_VERSION=1909
-      repo: rancher/externalip-webhook
-      tag: "${DRONE_TAG}-windows-1909"
-    volumes:
-      - name: docker_pipe
-        path: \\\\.\\pipe\\docker_engine
-    when:
-      instance:
-        - drone-publish.rancher.io
-      refs:
-        - refs/head/master
-        - refs/tags/*
-      event:
-        - tag
-volumes:
-  - name: docker_pipe
-    host:
-      path: \\\\.\\pipe\\docker_engine
-
 ---
 kind: pipeline
 name: manifest
@@ -238,6 +125,3 @@ steps:
 depends_on:
 - linux-amd64
 - linux-arm64
-- windows-1809
-- windows-1903
-- windows-1909

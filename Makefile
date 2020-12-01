@@ -2,6 +2,8 @@
 # k8s.gcr.io/multitenancy/externalip-webhook:v1.0.0
 IMG ?= rancher/externalip-webhook:v1.0.0
 
+default: all
+
 .dapper:
 	@echo Downloading dapper
 	@curl -sL https://releases.rancher.com/dapper/latest/dapper-`uname -s`-`uname -m` > .dapper.tmp
@@ -9,14 +11,11 @@ IMG ?= rancher/externalip-webhook:v1.0.0
 	@./.dapper.tmp -v
 	@mv .dapper.tmp .dapper
 
-dapper-build: .dapper
+rancher-build: .dapper
 	./.dapper build
 
-dapper-ci: .dapper
+rancher-ci: .dapper
 	./.dapper ci
-
-dapper-testacc: .dapper
-	./.dapper gotestacc.sh
 
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
 ifeq (,$(shell go env GOBIN))

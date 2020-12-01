@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+echo "==> Validating helm chart..."
+
+source $(dirname $0)/helm
+
+${HELM_BIN} lint ../../build/chart/rancher-externalip-webhook

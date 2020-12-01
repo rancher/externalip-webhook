@@ -29,6 +29,24 @@ make docker-build IMG=DOCKER_IMAGE_TAG
 make deploy IMG=DOCKER_IMAGE_TAG
 ```
 
+#### Build and deploy helm chart
+A [rancher-externalip-webhook](chart/README.md) helm chart has been created to facilitate deployment. 
+
+To restrict external IP to certain CIDRs, set `allowedExternalIPCidrs` value at helm command
+
+To build webhook and generate a new chart version
+```console
+make rancher-ci
+```
+
+It will generate a new externalip-webhook docker image and a new helm char revision under `build/chart` folder. Helm chart archive `build/chart/latest/rancher-externalip-webhook-<VERSION>.tgz` and helm chart folder `build/chart/rancher-externalip-webhook`
+
+Deploying the chart
+```console
+helm -n externalip-webhook template rancher-externalip-webhook build/chart/latest/rancher-externalip-webhook-<VERSION>.tgz --output-dir test --debug --set image.repository=rawmind/externalip-webhook --set image.tag=dev --set metrics.enabled=true --set metrics.prometheusExport=true
+
+```
+
 ## Configuration
 
 ### Updating webhook namespace

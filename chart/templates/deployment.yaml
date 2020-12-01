@@ -6,6 +6,7 @@ metadata:
   labels: {{ include "externalip-webhook.labels" . | indent 4 }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
   name: {{ template "externalip-webhook.fullname" . }}
+  namespace: {{ .Release.Namespace }}
 spec:
   replicas: {{ .Values.replicas }}
   selector:
@@ -45,7 +46,7 @@ spec:
           periodSeconds: 30
       {{- end }}
       - name: {{ template "externalip-webhook.fullname" . }}
-        image: {{ template "system_default_registry" . }}{{ .Values.image.repository}}:{{ .Values.image.tag }}
+        image: {{ template "system_default_registry" . }}{{ .Values.image.repository}}:{{ default .Chart.AppVersion .Values.image.tag }}
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
         command:
         - /webhook
