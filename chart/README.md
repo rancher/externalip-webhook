@@ -9,7 +9,7 @@ This chart will create a deployment of `externalip-webhook` within your Kubernet
 To install the chart with the release name `rancher-externalip-webhook`:
 
 ```bash
-$ helm install --name rancher-externalip-webhook stable/externalip-webhook
+$ helm install rancher-externalip-webhook stable/externalip-webhook --namespace cattle-externalip-system -f values.yaml
 ```
 
 ## Configuration
@@ -20,7 +20,7 @@ The following table lists the configurable parameters of the externalip-webhook 
 | Parameter                            | Description                                                                                                                | Default                                            |
 | ----------------------------------   | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
 | `admissionApiVersion`                | admissionregistration.k8s.io api version: use `v1beta` if k8s versions is lower than v1.16                                 | `"v1"`                                               |
-| `allowedExternalIPCidrs`             | Allowed external IP cidrs                                                                                                  | `[""]`                                               |
+| `allowedExternalIPCidrs`             | Allowed external IP cidrs sepparated by `,`                                                                                | `""`                                               |
 | `certificates.caBundle`              | If cert-manager integration is disabled, add here self signed ca.crt in base64 format                                      | `""`                                               |
 | `certificates.certManager.enabled`   | Enable cert manager integration. Cert manager should be already installed at the k8s cluster                               | `true`                                               |
 | `certificates.certManager.version`   | Cert manager version to use                                                                                                | `""`                                               |
@@ -39,6 +39,11 @@ The following table lists the configurable parameters of the externalip-webhook 
 | `metrics.authProxy.image.pullSecrets`| Webhook auth proxy docker pull secrets                                                                                     | `""`                                               |
 | `metrics.authProxy.image.repository` | Webhook auth proxy docker image repository                                                                                 | `"gcr.io/kubebuilder/kube-rbac-proxy"`                  |
 | `metrics.authProxy.image.pullPolicy` | Webhook auth proxy docker image tag                                                                                        | `"v0.5.0"`                                               |
+| `metrics.authProxy.resources.limits.cpu`      | Webhook auth proxy resource cpu limit                                                                             | `"100m"`                                               |
+| `metrics.authProxy.resources.limits.memory`   | Webhook auth proxy resource memory limit                                                                          | `"30Mi"`                                               |
+| `metrics.authProxy.resources.requests.cpu`    | Webhook auth proxy wesource cpu reservation                                                                       | `"100m"`                                               |
+| `metrics.authProxy.resources.requests.memory` | Webhook auth proxy resource memory reservation                                                                    | `"20Mi"`                                               |
+| `nodeSelector`                       | Node labels for pod assignment                                                                                             | `{}`                                               |
 | `rbac.apiVersion`                    | Rbac API version to use                                                                                                    | `"v1"`                                               |
 | `resources.limits.cpu`               | Resource cpu limit                                                                                                         | `"100m"`                                               |
 | `resources.limits.memory`            | Resource memory limit                                                                                                      | `"30Mi"`                                               |
@@ -47,15 +52,15 @@ The following table lists the configurable parameters of the externalip-webhook 
 | `service.metricsPort`                | Webhook metrics service port                                                                                               | `8443`                                               |
 | `service.webhookPort`                | Webhook server service port                                                                                                | `443`                                               |
 | `serviceAccountName`                 | Webhook serviceAccountName. Just used if metrics.authProxy.enabled = false                                                 | `"default"`                                               |
+| `tolerations`                        | List of node taints to tolerate (requires Kubernetes >= 1.6)                                                               | `[]`                                               |
 | `webhookPort`                        | Webhook server pod port                                                                                                    | `9443`                                               |
-
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
 
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
 
 ```bash
-$ helm install rancher-externalip-webhook -f values.yaml stable/externalip-webhook
+$ helm install rancher-externalip-webhook stable/externalip-webhook --namespace cattle-externalip-system -f values.yaml
 ```
 
 > **Tip**: You can use the default [values.yaml](values.yaml)

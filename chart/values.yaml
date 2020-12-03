@@ -1,7 +1,7 @@
 ## admissionregistration api version: use v1beta if k8s versions is lower than v1.16
 admissionApiVersion: v1
 ## Allowed external IP cidrs
-allowedExternalIPCidrs: []
+allowedExternalIPCidrs: ""
 ## Certificates generation for webhook
 certificates:
   certManager:
@@ -16,9 +16,12 @@ certificates:
 image:
   pullPolicy: IfNotPresent
   pullSecrets: []
-  repository: rancher/externalip-webhook
+  repository: k8s.gcr.io/multitenancy/externalip-webhook
+  tag: v1.0.0
+  # If custom image is needed update repository and tag valus
+  #repository: rancher/externalip-webhook
   # Defaults to .Chart.appVersion
-  # tag: v1.0.0
+  ## tag: ""
 ## Enabling metrics endpoint
 # Webhook emits `webhook_failed_request_count` metrics whenever it rejects service creation or update operation
 metrics:
@@ -35,6 +38,17 @@ metrics:
       pullSecrets: []
       repository: gcr.io/kubebuilder/kube-rbac-proxy
       tag: v0.5.0
+    resources:
+      limits:
+        memory: 30Mi
+        cpu: 100m
+      requests:
+        memory: 20Mi
+        cpu: 100m
+## Node labels for pod assignment
+## Ref: https://kubernetes.io/docs/user-guide/node-selection/
+##
+nodeSelector: {}
 ## RBAC 
 rbac: 
   apiVersion: v1
@@ -51,6 +65,8 @@ service:
   webhookPort: 443
 ## Webhook serviceAccountName. Just used if metrics.authProxy.enabled = false
 serviceAccountName: default
+## List of node taints to tolerate (requires Kubernetes >= 1.6)
+tolerations: []
 ## Webhook server pod port
 webhookPort: 9443
 global:

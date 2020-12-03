@@ -2,6 +2,15 @@ suite: Test Deployments
 templates:
 - deployment.yaml
 tests:
+- it: should render Deployment with allowed-external-ip-cidrs arg if allowedExternalIPCidrs is set
+  release:
+    name: rancher-externalip-webhook
+  set:
+    allowedExternalIPCidrs: "1,2"
+  asserts:
+  - equal:
+      path: spec.template.spec.containers[0].args[1]
+      value: --allowed-external-ip-cidrs=1,2
 - it: should render Deployment with default port if metrics.enabled = false and metrics.authProxy.enabled = false
   release:
     name: rancher-externalip-webhook

@@ -34,12 +34,17 @@ A [rancher-externalip-webhook](chart/README.md) helm chart has been created to f
 
 To restrict external IP to certain CIDRs, set `allowedExternalIPCidrs` value at helm command
 
-To build webhook and generate a new chart version
+To build webhook docker image and generate a new chart version
 ```console
 make rancher-ci
 ```
 
-It will generate a new externalip-webhook docker image and a new helm char revision under `build/chart` folder. Helm chart archive `build/chart/latest/rancher-externalip-webhook-<VERSION>.tgz` and helm chart folder `build/chart/rancher-externalip-webhook`
+To just generate a new chart version
+```console
+make rancher-chart-ci
+```
+
+Helm char revision would be generated under `build/chart` folder. Helm chart archive `build/chart/latest/rancher-externalip-webhook-<VERSION>.tgz` and helm chart folder `build/chart/rancher-externalip-webhook`
 
 Deploying the chart
 ```console

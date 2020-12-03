@@ -24,9 +24,6 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 app: {{ template "externalip-webhook.name" . }}
 heritage: {{.Release.Service }}
 release: {{.Release.Name }}
-{{- if .Values.podLabels }}
-{{ toYaml .Values.podLabels }}
-{{- end }}
 {{- end }}
 
 {{- define "system_default_registry" -}}

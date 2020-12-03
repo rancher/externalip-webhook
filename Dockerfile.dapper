@@ -17,9 +17,18 @@ RUN wget -O - https://dl.google.com/go/go1.14.4.linux-${!GOLANG_ARCH}.tar.gz | t
 ENV DOCKER_URL_amd64=https://get.docker.com/builds/Linux/x86_64/docker-1.10.3 \
     DOCKER_URL_arm=https://github.com/rancher/docker/releases/download/v1.10.3-ros1/docker-1.10.3_arm \
     DOCKER_URL_arm64=https://github.com/rancher/docker/releases/download/v1.10.3-ros1/docker-1.10.3_arm64 \
-    DOCKER_URL=DOCKER_URL_${ARCH}
-
+    DOCKER_URL=DOCKER_URL_${ARCH} 
+    
 RUN wget -O - ${!DOCKER_URL} > /usr/bin/docker && chmod +x /usr/bin/docker
+
+ENV HELM_URL="https://get.helm.sh/helm-v3.4.1-linux-${ARCH}.tar.gz" \
+    HELM_UNITTEST_URL="https://github.com/rancher/helm-unittest" \
+    HELM_UNITTEST_VERSION="v0.1.6-rancher1"
+
+RUN curl -sL ${HELM_URL} | tar -xzf - && \
+    mv linux-${ARCH}/helm /usr/bin/helm && rm -rf linux-${ARCH} && \
+    chmod 755 /usr/bin/helm && \
+    HOME=/go/src/github.com/rancher/externalip-webhook/ CATTLE_HELM_UNITTEST_VERSION=${HELM_UNITTEST_VERSION} /usr/bin/helm plugin install ${HELM_UNITTEST_URL}
 
 ENV DAPPER_ENV REPO TAG DRONE_TAG
 ENV DAPPER_SOURCE /go/src/github.com/rancher/externalip-webhook/

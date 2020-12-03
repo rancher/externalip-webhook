@@ -33,6 +33,8 @@ spec:
         - containerPort: {{ .Values.metrics.port }}
           name: webhook-metrics
           protocol: TCP
+        resources:
+{{ toYaml .Values.metrics.authProxy.resources | indent 10 }}
         readinessProbe:
           tcpSocket:
             port: webhook-metrics
@@ -41,7 +43,7 @@ spec:
         livenessProbe:
           tcpSocket:
             port: webhook-metrics
-          initialDelaySeconds: 15
+          initialDelaySeconds: 5
           failureThreshold: 10
           periodSeconds: 30
       {{- end }}
@@ -51,15 +53,15 @@ spec:
         command:
         - /webhook
         args:
-          - --webhook-port={{ .Values.webhookPort }}
+        - --webhook-port={{ .Values.webhookPort }}
         {{- if .Values.allowedExternalIPCidrs }}
-          - --allowed-external-ip-cidrs={{ .Values.allowedExternalIPCidrs }}
+        - --allowed-external-ip-cidrs={{ .Values.allowedExternalIPCidrs }}
         {{- end }}
         {{- if .Values.metrics.enabled }}
           {{- if .Values.metrics.authProxy.enabled }}
-          - --metrics-addr=127.0.0.1:{{ .Values.metrics.authProxy.port }}
+        - --metrics-addr=127.0.0.1:{{ .Values.metrics.authProxy.port }}
           {{- else }}
-          - --metrics-addr=0.0.0.0:{{ .Values.metrics.port }}
+        - --metrics-addr=0.0.0.0:{{ .Values.metrics.port }}
           {{- end }}
         {{- end }}
         ports:
@@ -76,7 +78,7 @@ spec:
           mountPath: /tmp/k8s-webhook-server/serving-certs
           readOnly: true
         resources:
-{{ toYaml .Values.resources | indent 12 }}
+{{ toYaml .Values.resources | indent 10 }}
         readinessProbe:
           tcpSocket:
             port: webhook-server
@@ -89,6 +91,14 @@ spec:
           initialDelaySeconds: 5
           failureThreshold: 10
           periodSeconds: 30
+      {{- if .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.nodeSelector | indent 8 }}
+      {{- end }}
+      {{- if .Values.tolerations }}
+      tolerations:
+{{ toYaml .Values.tolerations | indent 6 }}
+      {{- end }}
       serviceAccountName: {{ template "externalip-webhook.fullname" . }}
       volumes:
       - name: server-cert
