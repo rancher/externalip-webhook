@@ -3,6 +3,9 @@
 echo "==> Testing helm chart..."
 
 source $(dirname $0)/helm
+cd $(dirname $0)/..
+source ./version
+cd $(dirname $0)/..
 
 # Check for unittest plugin
 ${HELM_BIN} unittest --help >/dev/null 2>&1
@@ -15,4 +18,4 @@ if [[ $? > 0 ]]; then
     fi
 fi
 
-${HELM_BIN} unittest ../../build/chart/rancher-externalip-webhook
+${HELM_BIN} unittest ${CHART_BUILD_DIR}/${CHART_NAME}

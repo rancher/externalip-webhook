@@ -20,27 +20,14 @@ fi
 COMMIT_DATE=$(git --no-pager log -1 --format='%ct')
 COMMIT_BRANCH=$(git rev-parse --abbrev-ref HEAD | sed -E 's/[^a-zA-Z0-9]+/-/g')
 LAST_TAG=${GIT_TAG:-'v0.0.0'}
-
-if [[ -z "$DIRTY" && -n "$GIT_TAG" ]]; then
-    VERSION=$GIT_TAG
-else
-    VERSION="${COMMIT}${DIRTY}"
-fi
-
 # Drop the v prefix for Chart Version
 CHART_VERSION="$(echo ${LAST_TAG} | sed -E 's/^v//' | sed -e 's/^\(.\{55\}\).*/\1/')"
-
-# Chart Repo - Target Repo for releases.
-case $CHART_VERSION in
-    *-alpha*) # All alpha tags
-        CHART_REPO="alpha" ;;
-    *-rc*) # All rc tags
-        CHART_REPO="latest" ;;
-    +([0-9]).+([0-9]).+([0-9])) # All release tags
-        CHART_REPO="latest" ;;
-    *) # Anything else - Future use
-        CHART_REPO="dev" ;;
-esac
+CHART_APP_VERSION=${VERSION}
+if echo ${CHART_APP_VERSION} | grep -q dirty; then
+    CHART_APP_VERSION=dev
+fi
+CHART_NAME="rancher-externalip-webhook"
+CHART_BUILD_DIR=build/chart
 
 if [ -z "$ARCH" ]; then
     ARCH=amd64

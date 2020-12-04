@@ -4,14 +4,12 @@ set -e
 source $(dirname $0)/version
 
 ARCH=${ARCH:-"amd64"}
-SUFFIX=""
-[ "${ARCH}" != "amd64" ] && SUFFIX="_${ARCH}"
-
+SUFFIX="-${ARCH}"
 TAG=${TAG:-${VERSION}${SUFFIX}}
 REPO=${REPO:-rancher}
 
 if echo $TAG | grep -q dirty; then
-    TAG=dev
+    TAG=dev${SUFFIX}
 fi
 
 IMAGE=${REPO}/externalip-webhook:${TAG}

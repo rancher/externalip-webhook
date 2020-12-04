@@ -3,5 +3,8 @@
 echo "==> Validating helm chart..."
 
 source $(dirname $0)/helm
+cd $(dirname $0)/..
+source ./version
+cd $(dirname $0)/..
 
-${HELM_BIN} lint ../../build/chart/rancher-externalip-webhook
+${HELM_BIN} lint ${CHART_BUILD_DIR}/${CHART_NAME}

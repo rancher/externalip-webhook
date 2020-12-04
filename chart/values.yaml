@@ -16,12 +16,12 @@ certificates:
 image:
   pullPolicy: IfNotPresent
   pullSecrets: []
-  repository: k8s.gcr.io/multitenancy/externalip-webhook
-  tag: v1.0.0
-  # If custom image is needed update repository and tag valus
-  #repository: rancher/externalip-webhook
+  # community image
+  #repository: k8s.gcr.io/multitenancy/externalip-webhook
+  #tag: v1.0.0
+  repository: rancher/externalip-webhook
   # Defaults to .Chart.appVersion
-  ## tag: ""
+  # tag: ""
 ## Enabling metrics endpoint
 # Webhook emits `webhook_failed_request_count` metrics whenever it rejects service creation or update operation
 metrics:

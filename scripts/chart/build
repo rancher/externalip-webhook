@@ -5,17 +5,12 @@ set -e -x
 echo "==> Building helm chart..."
 
 cd $(dirname $0)/..
-. ./version
+source ./version
 
 cd ..
-mkdir -p build/chart
-rm -rf build/chart/rancher-externalip-webhook
-cp -rf ${1} build/chart/rancher-externalip-webhook
+[ -f ${CHART_BUILD_DIR} ] && rm -rf ${CHART_BUILD_DIR}
+mkdir -p ${CHART_BUILD_DIR}
+cp -rf ${1} ${CHART_BUILD_DIR}/${CHART_NAME}
 
-APP_VERSION=${VERSION}
-if echo ${APP_VERSION} | grep -q dirty; then
-    APP_VERSION=dev
-fi
-
-sed -i -e "s/%VERSION%/${CHART_VERSION}/g" build/chart/rancher-externalip-webhook/Chart.yaml
-sed -i -e "s/%APP_VERSION%/${APP_VERSION}/g" build/chart/rancher-externalip-webhook/Chart.yaml
+sed -i -e "s/%VERSION%/${CHART_VERSION}/g" ${CHART_BUILD_DIR}/${CHART_NAME}/Chart.yaml
+sed -i -e "s/%APP_VERSION%/${CHART_APP_VERSION}/g" ${CHART_BUILD_DIR}/${CHART_NAME}/Chart.yaml
