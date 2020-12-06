@@ -1,5 +1,3 @@
-## admissionregistration api version: use v1beta if k8s versions is lower than v1.16
-admissionApiVersion: v1
 ## Allowed external IP cidrs
 allowedExternalIPCidrs: ""
 ## Certificates generation for webhook

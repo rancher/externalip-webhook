@@ -1,4 +1,4 @@
-apiVersion: admissionregistration.k8s.io/{{ .Values.rbac.apiVersion }}
+apiVersion: admissionregistration.k8s.io/v1beta1
 kind: ValidatingWebhookConfiguration
 metadata:
 {{- if .Values.certificates.certManager.enabled }}
@@ -18,9 +18,6 @@ webhooks:
       path: /validate-service
   failurePolicy: Ignore
   name: {{ template "externalip-webhook.fullname" . }}.{{ .Release.Namespace }}.svc
-  sideEffects: None
-  admissionReviewVersions: 
-  - {{ .Values.rbac.apiVersion }}
   rules:
   - apiGroups:
     - ""

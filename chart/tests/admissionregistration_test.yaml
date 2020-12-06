@@ -2,18 +2,11 @@ suite: Test Admission Registration
 templates:
 - admissionregistration.yaml
 tests:
-- it: should render Admission Registration with default rbac api version
+- it: should render Admission Registration
   asserts:
   - equal:
       path: apiVersion
-      value: admissionregistration.k8s.io/v1
-- it: should render Admission Registration with custom rbac api version
-  set:
-    rbac.apiVersion: v1beta
-  asserts:
-  - equal:
-      path: apiVersion
-      value: admissionregistration.k8s.io/v1beta
+      value: admissionregistration.k8s.io/v1beta1
 - it: should render Admission Registration annotation and not caBundle if certificates.certManager.enabled = true
   release:
     name: rancher-externalip-webhook

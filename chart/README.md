@@ -19,7 +19,6 @@ The following table lists the configurable parameters of the externalip-webhook 
 
 | Parameter                            | Description                                                                                                                | Default                                            |
 | ----------------------------------   | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
-| `admissionApiVersion`                | admissionregistration.k8s.io api version: use `v1beta` if k8s versions is lower than v1.16                                 | `"v1"`                                               |
 | `allowedExternalIPCidrs`             | Allowed external IP cidrs sepparated by `,`                                                                                | `""`                                               |
 | `certificates.caBundle`              | If cert-manager integration is disabled, add here self signed ca.crt in base64 format                                      | `""`                                               |
 | `certificates.certManager.enabled`   | Enable cert manager integration. Cert manager should be already installed at the k8s cluster                               | `true`                                               |
