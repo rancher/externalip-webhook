@@ -1,3 +1,4 @@
+---
 kind: pipeline
 name: amd64
 
@@ -6,37 +7,37 @@ platform:
   arch: amd64
 
 steps:
-  - name: build
-    image: rancher/dapper:v0.5.1
-    volumes:
-      - name: docker
-        path: /var/run/docker.sock
-    commands:
-      - dapper ci
-  - name: docker-publish
-    image: plugins/docker
-    settings:
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-      dockerfile: Dockerfile
-      build_args:
-        - ARCH=amd64
-      repo: rancher/externalip-webhook
-      tag: "${DRONE_TAG}-amd64"
-    when:
-      instance:
-      - drone-publish.rancher.io
-      refs:
-      - refs/head/master
-      - refs/tags/*
-      event:
-      - tag
-volumes:
+- name: build
+  image: rancher/dapper:v0.5.0
+  volumes:
   - name: docker
-    host:
-      path: /var/run/docker.sock
+    path: /var/run/docker.sock
+  commands:
+  - dapper ci
+- name: docker-publish
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    dockerfile: Dockerfile
+    build_args:
+    - ARCH=amd64
+    repo: rancher/externalip-webhook
+    tag: "${DRONE_TAG}-amd64"
+  when:
+    instance:
+    - drone-publish.rancher.io
+    refs:
+    - refs/head/master
+    - refs/tags/*
+    event:
+    - tag
+volumes:
+- name: docker
+  host:
+    path: /var/run/docker.sock
 ---
 kind: pipeline
 name: arm64
@@ -46,37 +47,37 @@ platform:
   arch: arm64
 
 steps:
-  - name: build
-    image: rancher/dapper:v0.5.1
-    volumes:
-      - name: docker
-        path: /var/run/docker.sock
-    commands:
-      - dapper ci
-  - name: docker-publish
-    image: plugins/docker
-    settings:
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-      dockerfile: Dockerfile
-      build_args:
-        - ARCH=arm64
-      repo: rancher/externalip-webhook
-      tag: "${DRONE_TAG}-arm64"
-    when:
-      instance:
-      - drone-publish.rancher.io
-      refs:
-      - refs/head/master
-      - refs/tags/*
-      event:
-      - tag
-volumes:
+- name: build
+  image: rancher/dapper:v0.5.0
+  volumes:
   - name: docker
-    host:
-      path: /var/run/docker.sock
+    path: /var/run/docker.sock
+  commands:
+  - dapper ci
+- name: docker-publish
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    dockerfile: Dockerfile
+    build_args:
+    - ARCH=arm64
+    repo: rancher/externalip-webhook
+    tag: "${DRONE_TAG}-arm64"
+  when:
+    instance:
+    - drone-publish.rancher.io
+    refs:
+    - refs/head/master
+    - refs/tags/*
+    event:
+    - tag
+volumes:
+- name: docker
+  host:
+    path: /var/run/docker.sock
 ---
 kind: pipeline
 name: arm
@@ -86,58 +87,58 @@ platform:
   arch: arm
 
 steps:
-  - name: build
-    image: rancher/dapper:v0.5.1
-    volumes:
-      - name: docker
-        path: /var/run/docker.sock
-    commands:
-      - dapper ci
-  - name: docker-publish
-    image: plugins/docker
-    settings:
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-      dockerfile: Dockerfile
-      build_args:
-        - ARCH=arm
-      repo: rancher/externalip-webhook
-      tag: "${DRONE_TAG}-arm"
-    when:
-      instance:
-      - drone-publish.rancher.io
-      refs:
-      - refs/head/master
-      - refs/tags/*
-      event:
-      - tag
-volumes:
+- name: build
+  image: rancher/dapper:v0.5.0
+  volumes:
   - name: docker
-    host:
-      path: /var/run/docker.sock
+    path: /var/run/docker.sock
+  commands:
+  - dapper ci
+- name: docker-publish
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    dockerfile: Dockerfile
+    build_args:
+    - ARCH=arm
+    repo: rancher/externalip-webhook
+    tag: "${DRONE_TAG}-arm"
+  when:
+    instance:
+    - drone-publish.rancher.io
+    refs:
+    - refs/head/master
+    - refs/tags/*
+    event:
+    - tag
+volumes:
+- name: docker
+  host:
+    path: /var/run/docker.sock
 ---
 kind: pipeline
 name: manifest
 
 steps:
-  - name: push-manifest
-    image: plugins/manifest
-    settings:
-      username:
-        from_secret: docker_username
-      password:
-        from_secret: docker_password
-      spec: manifest.tmpl
-    when:
-      instance:
-      - drone-publish.rancher.io
-      refs:
-      - refs/head/master
-      - refs/tags/*
-      event:
-      - tag
+- name: push-manifest
+  image: plugins/manifest
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    spec: manifest.tmpl
+  when:
+    instance:
+    - drone-publish.rancher.io
+    refs:
+    - refs/head/master
+    - refs/tags/*
+    event:
+    - tag
 depends_on:
 - amd64
 - arm64
@@ -146,13 +147,14 @@ depends_on:
 kind: pipeline
 name: chart
 
+steps:
 - name: build
-    image: rancher/dapper:v0.5.1
-    volumes:
-      - name: docker
-        path: /var/run/docker.sock
-    commands:
-      - dapper ./chart/ci
+  image: rancher/dapper:v0.5.0
+  volumes:
+  - name: docker
+    path: /var/run/docker.sock
+  commands:
+  - dapper ./chart/ci
 - name: github_prerelease
   image: plugins/github-release
   settings:
@@ -176,5 +178,9 @@ name: chart
     event: tag
     ref:
       exclude: [ refs/tags/*rc* ]
+volumes:
+- name: docker
+  host:
+    path: /var/run/docker.sock
 depends_on:
 - manifest

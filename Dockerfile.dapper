@@ -28,7 +28,9 @@ ENV HELM_URL="https://get.helm.sh/helm-v3.4.1-linux-${ARCH}.tar.gz" \
 RUN curl -sL ${HELM_URL} | tar -xzf - && \
     mv linux-${ARCH}/helm /usr/bin/helm && rm -rf linux-${ARCH} && \
     chmod 755 /usr/bin/helm && \
-    HOME=/go/src/github.com/rancher/externalip-webhook/ CATTLE_HELM_UNITTEST_VERSION=${HELM_UNITTEST_VERSION} /usr/bin/helm plugin install ${HELM_UNITTEST_URL}
+    if [ "${ARCH}" != "arm" ] ; then \
+    HOME=/go/src/github.com/rancher/externalip-webhook/ CATTLE_HELM_UNITTEST_VERSION=${HELM_UNITTEST_VERSION} /usr/bin/helm plugin install ${HELM_UNITTEST_URL} \
+    ; fi
 
 ENV DAPPER_ENV REPO TAG DRONE_TAG
 ENV DAPPER_SOURCE /go/src/github.com/rancher/externalip-webhook/
