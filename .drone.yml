@@ -150,11 +150,15 @@ name: chart
 steps:
 - name: build
   image: rancher/dapper:v0.5.0
+  environment:
+    VERSION: ${DRONE_TAG}
   volumes:
   - name: docker
     path: /var/run/docker.sock
   commands:
   - dapper ./chart/ci
+  when:
+    event: tag
 - name: github_prerelease
   image: plugins/github-release
   settings:
