@@ -11,7 +11,6 @@ spec:
   replicas: {{ .Values.replicas }}
   selector:
     matchLabels: {{ include "externalip-webhook.labels" . | indent 6 }}
-      chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
   template:
     metadata:
       annotations:
