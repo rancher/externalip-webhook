@@ -91,12 +91,12 @@ spec:
           initialDelaySeconds: 5
           failureThreshold: 10
           periodSeconds: 30
+      nodeSelector: {{ include "linux-node-selector" . | nindent 8 }}
       {{- if .Values.nodeSelector }}
-      nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
       {{- end }}
+      tolerations: {{ include "linux-node-tolerations" . | nindent 6}}
       {{- if .Values.tolerations }}
-      tolerations:
 {{ toYaml .Values.tolerations | indent 6 }}
       {{- end }}
       serviceAccountName: {{ template "externalip-webhook.fullname" . }}
