@@ -19,7 +19,6 @@ maintainers:
   email: raul@rancher.com
 keywords:
 - cve
-- embargo
 - externalip
 - webhook
 - security
