@@ -11,8 +11,7 @@ spec:
     port: {{ .Values.service.webhookPort }}
     protocol: TCP
     targetPort: {{ .Values.webhookPort }}
-  selector:
-    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+  selector: {{ include "externalip-webhook.labels" . | indent 4 }}
   type: "ClusterIP"
 {{- if .Values.metrics.enabled }}
 ---
@@ -29,7 +28,6 @@ spec:
     port: {{ .Values.service.metricsPort }}
     protocol: TCP
     targetPort: {{ .Values.metrics.port }}
-  selector:
-    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+  selector: {{ include "externalip-webhook.labels" . | indent 4 }}
   type: "ClusterIP"
 {{- end }}
