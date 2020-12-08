@@ -1,12 +1,12 @@
 annotations:
   catalog.cattle.io/certified: rancher
-  catalog.cattle.io/display-name: "Externalip webhook"
+  catalog.cattle.io/display-name: "External IP Webhook"
   catalog.cattle.io/namespace: cattle-externalip-system
   catalog.cattle.io/release-name: rancher-externalip-webhook
   catalog.cattle.io/ui-component: rancher-externalip-webhook
 apiVersion: v1
 description: |
-  Deploy rancher-externalip-webhook to mitigate k8s CVE-2020-8554
+  Deploy the externalip-webhook to mitigate k8s CVE-2020-8554
 name: rancher-externalip-webhook
 version: %VERSION%
 appVersion: %APP_VERSION%
