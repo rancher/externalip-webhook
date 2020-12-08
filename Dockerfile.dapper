@@ -32,7 +32,7 @@ RUN curl -sL ${HELM_URL} | tar -xzf - && \
     HOME=/go/src/github.com/rancher/externalip-webhook/ CATTLE_HELM_UNITTEST_VERSION=${HELM_UNITTEST_VERSION} /usr/bin/helm plugin install ${HELM_UNITTEST_URL} \
     ; fi
 
-ENV DAPPER_ENV REPO TAG DRONE_TAG
+ENV DAPPER_ENV REPO TAG DRONE_TAG VERSION
 ENV DAPPER_SOURCE /go/src/github.com/rancher/externalip-webhook/
 ENV DAPPER_OUTPUT ./build
 ENV DAPPER_DOCKER_SOCKET true

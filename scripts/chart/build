@@ -14,3 +14,4 @@ cp -rf ${1} ${CHART_BUILD_DIR}/${CHART_NAME}
 
 sed -i -e "s/%VERSION%/${CHART_VERSION}/g" ${CHART_BUILD_DIR}/${CHART_NAME}/Chart.yaml
 sed -i -e "s/%APP_VERSION%/${CHART_APP_VERSION}/g" ${CHART_BUILD_DIR}/${CHART_NAME}/Chart.yaml
+sed -i -e "s/%APP_VERSION%/${CHART_APP_VERSION}/g" ${CHART_BUILD_DIR}/${CHART_NAME}/values.yaml

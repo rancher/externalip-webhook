@@ -14,12 +14,8 @@ certificates:
 image:
   pullPolicy: IfNotPresent
   pullSecrets: []
-  # community image
-  #repository: k8s.gcr.io/multitenancy/externalip-webhook
-  #tag: v1.0.0
   repository: rancher/externalip-webhook
-  # Defaults to .Chart.appVersion
-  # tag: ""
+  tag: %APP_VERSION%
 ## Enabling metrics endpoint
 # Webhook emits `webhook_failed_request_count` metrics whenever it rejects service creation or update operation
 metrics:
@@ -27,14 +23,14 @@ metrics:
   port: 8443
   # Enable webhook metrics export to Prometheus
   prometheusExport: false
-  # Webhook metrics auth proxy
+  # Webhook metrics auth proxy. This option is just available for amd64 arch
   authProxy:
     enabled: false
     port: 8080
     image:
       pullPolicy: IfNotPresent
       pullSecrets: []
-      repository: gcr.io/kubebuilder/kube-rbac-proxy
+      repository: rancher/kube-rbac-proxy
       tag: v0.5.0
     resources:
       limits:

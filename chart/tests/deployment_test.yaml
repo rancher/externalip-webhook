@@ -11,7 +11,7 @@ tests:
   - equal:
       path: spec.template.spec.containers[0].args[1]
       value: --allowed-external-ip-cidrs=1,2
-- it: should render Deployment with default port if metrics.enabled = false and metrics.authProxy.enabled = false
+- it: should render Deployment with default port, nodeSelector and tolerations if metrics.enabled = false and metrics.authProxy.enabled = false
   release:
     name: rancher-externalip-webhook
   asserts:
@@ -24,6 +24,57 @@ tests:
         containerPort: 9443
         name: webhook-server
         protocol: TCP
+  - equal:
+      path: spec.template.spec.tolerations[0]
+      value:
+        key: "cattle.io/os" 
+        value: "linux"
+        effect: "NoSchedule"
+        operator: "Equal"
+  - equal:
+      path: spec.template.spec.nodeSelector
+      value:
+        kubernetes.io/os: linux
+- it: should render Deployment with default port and custom nodeSelector and tolerations if metrics.enabled = false and metrics.authProxy.enabled = false
+  release:
+    name: rancher-externalip-webhook
+  set:
+    tolerations:
+    - key: "cattle.io/test" 
+      value: "linux"
+      effect: "NoSchedule"
+      operator: "Equal"
+    nodeSelector: 
+      kubernetes.io/test: linux
+  asserts:
+  - equal:
+      path: spec.template.spec.containers[0].name
+      value: rancher-externalip-webhook
+  - equal:
+      path: spec.template.spec.containers[0].ports[0]
+      value: 
+        containerPort: 9443
+        name: webhook-server
+        protocol: TCP
+  - equal:
+      path: spec.template.spec.tolerations[0]
+      value:
+        key: "cattle.io/os" 
+        value: "linux"
+        effect: "NoSchedule"
+        operator: "Equal"
+  - equal:
+      path: spec.template.spec.tolerations[1]
+      value:
+        key: "cattle.io/test" 
+        value: "linux"
+        effect: "NoSchedule"
+        operator: "Equal"
+  - equal:
+      path: spec.template.spec.nodeSelector
+      value:
+        kubernetes.io/os: linux
+        kubernetes.io/test: linux
 - it: should render Deployment with custom port and image if metrics.enabled = false and metrics.authProxy.enabled = false
   release:
     name: rancher-externalip-webhook
