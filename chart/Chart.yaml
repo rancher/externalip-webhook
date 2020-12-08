@@ -1,9 +1,9 @@
 annotations:
   catalog.cattle.io/certified: rancher
   catalog.cattle.io/display-name: "Externalip webhook"
-  catalog.cattle.io/hidden: "true"
   catalog.cattle.io/namespace: cattle-externalip-system
   catalog.cattle.io/release-name: rancher-externalip-webhook
+  catalog.cattle.io/ui-component: rancher-externalip-webhook
 apiVersion: v1
 description: |
   Deploy rancher-externalip-webhook to mitigate k8s CVE-2020-8554
@@ -15,9 +15,11 @@ sources:
   - https://github.com/rancher/externalip-webhook
 engine: gotpl
 maintainers:
-- name: Raul Sanchez
+- name: rawmind0
   email: raul@rancher.com
 keywords:
+- cve
+- embargo
 - externalip
 - webhook
 - security

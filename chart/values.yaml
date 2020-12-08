@@ -43,8 +43,8 @@ metrics:
 ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
 ##
 nodeSelector: {}
-## RBAC 
-rbac: 
+## RBAC
+rbac:
   apiVersion: v1
 ## CPU and Memory limit and request for externalip-webhook
 resources:
