@@ -11,5 +11,6 @@ spec:
     - path: /metrics
       port: https
   selector:
-    matchLabels: {{ include "externalip-webhook.labels" . | indent 6 }}
+    matchLabels:
+      app: {{ template "externalip-webhook.name" . }}
 {{- end }}

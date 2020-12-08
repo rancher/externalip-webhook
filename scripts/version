@@ -27,7 +27,7 @@ if [[ $VERSION_NO_V =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-((0|[
 else 
 	CHART_VERSION="0.0.0"
 fi
-CHART_APP_VERSION=${VERSION}
+CHART_APP_VERSION="${VERSION}"
 if echo ${CHART_APP_VERSION} | grep -q dirty; then
     CHART_APP_VERSION=dev
 fi
