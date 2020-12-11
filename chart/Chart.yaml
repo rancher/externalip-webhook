@@ -4,6 +4,7 @@ annotations:
   catalog.cattle.io/namespace: cattle-externalip-system
   catalog.cattle.io/release-name: rancher-externalip-webhook
   catalog.cattle.io/ui-component: rancher-externalip-webhook
+  catalog.cattle.io/os: linux
 apiVersion: v1
 description: |
   Deploy the externalip-webhook to mitigate k8s CVE-2020-8554
