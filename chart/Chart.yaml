@@ -11,6 +11,7 @@ description: |
 name: rancher-externalip-webhook
 version: %VERSION%
 appVersion: %APP_VERSION%
+kubeVersion: '>=1.16.0-0'
 home: https://github.com/rancher/externalip-webhook
 sources:
   - https://github.com/rancher/externalip-webhook
