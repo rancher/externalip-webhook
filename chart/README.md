@@ -2,7 +2,9 @@
 
 ## Chart Details
 
-This chart will create a deployment of `externalip-webhook` within your Kubernetes Cluster. It's required to mitigate k8s CVE-2020-8554.
+This chart will create a deployment of `externalip-webhook` within your Kubernetes Cluster. It is required on kubernetes versions prior to 1.21 to mitigate CVE-2020-8554.
+
+**Note:** This chart is deprecated for kubernetes version 1.21 and unsupported starting with 1.22. To mitigate CVE-2020-8554, enable the [`DenyServiceExternalIPs` admission controller](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#denyserviceexternalips) on the cluster.
 
 ## Installing the Chart
 
