@@ -2,6 +2,8 @@
 
 created to address [CVE-2020-8554](https://www.cvedetails.com/cve/CVE-2020-8554/)
 
+**Note:** This chart is deprecated for kubernetes version 1.21 and unsupported starting with 1.22. To mitigate CVE-2020-8554, enable the [`DenyServiceExternalIPs` admission controller](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#denyserviceexternalips) on the cluster.
+
 externalip-webhook, is a validating webhook which prevents services from using random external IPs. Cluster administrators
 can specify list of CIDRs allowed to be used as external IP by specifying `allowed-external-ip-cidrs` parameter.
 Webhook will only allow creation of services which doesn't require external IP or whose external IPs are within the range
