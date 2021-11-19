@@ -64,4 +64,5 @@ tolerations: []
 ## Webhook server pod port
 webhookPort: 9443
 global:
-  systemDefaultRegistry: ""
+  cattle:
+    systemDefaultRegistry: ""
